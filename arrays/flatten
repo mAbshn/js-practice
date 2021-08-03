@@ -1,4 +1,4 @@
-Task: write a function that converts deep array to one-dimensional without using the method .flat()
+// Task: write a function that converts deep array to one-dimensional without using the method .flat()
 
 const flatten = (array) => {
         return array.reduce((accum, elem) => {
