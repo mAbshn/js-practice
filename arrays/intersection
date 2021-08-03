@@ -1,0 +1,24 @@
+// Task: write a function that creates an array of unique values that are in each of the provided arrays
+
+const intersection = (...arrays) => {
+        const newArray = arrays[0].filter((firstArrElem) => {
+                for (let arrNumber = 1; arrNumber < arrays.length; arrNumber++) {
+                        for (let elem of arrays[arrNumber]) {
+                                if (firstArrElem === elem) return true;
+                        }
+                }
+        });
+        return Array.from(new Set(newArray));
+}
+
+const arr1 = [1, 2];
+const arr2 = [2, 3];
+const arr3 = ['a', 'b'];
+const arr4 = ['b', 'c'];
+const arr5 = ['b', 'e', 'c'];
+const arr6 = ['b', 'b', 'e'];
+const arr7 = ['b', 'c', 'e'];
+const arr8 = ['b', 'e', 'c'];
+console.log(intersection(arr1, arr2)) // [2]
+console.log(intersection(arr3, arr4, arr5)) // ['b']
+console.log(intersection(arr6, arr7, arr8)) // ['b', 'e']
