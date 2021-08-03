@@ -1,0 +1,12 @@
+// Task: write a function that calls the array method on the given object path
+
+const invoke = (object, path, func, args) => {
+        let arrPath = path.split('.');
+        let target = arrPath.reduce((acc, key) => {
+                return acc = acc[key] ? acc[key] : object[key];
+        }, {});
+        return Array.prototype[func].apply(target, args);
+};
+
+const data = { a: { b: [1, 2, 3] } }
+console.log(invoke(data, 'a.b', 'splice', [1, 2])); // [2, 3]
