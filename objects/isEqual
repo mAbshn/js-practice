@@ -1,0 +1,14 @@
+// Task: write a function that superficially checks two objects for equality
+
+const isEqual = (firstObject, secondObject) => {
+        const firstKeys = Object.keys(firstObject);
+        const secondKeys = Object.keys(secondObject);
+        if (firstKeys.length !== secondKeys.length) return false;
+        return !firstKeys.filter((elem) => firstObject[elem] !== secondObject[elem]).length;
+};
+
+const data = { a: 1, b: 1 };
+const data2 = { a: 1, b: 1 };
+const data3 = { a: 1, b: 2 };
+console.log(isEqual(data, data2)); // true
+console.log(isEqual(data, data3)); // false
