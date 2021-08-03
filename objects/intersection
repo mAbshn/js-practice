@@ -1,0 +1,14 @@
+// Task: write a function that superficially finds intersections of objects and returns an intersection object
+
+const intersection = (firstObject, secondObject) => {
+        let firstObjKeys = Object.keys(firstObject);
+        return firstObjKeys.reduce((acc, elem) => {
+                if (isNaN(firstObject[elem]) && isNaN(secondObject[elem])) acc[elem] = NaN;
+                if (firstObject[elem] === secondObject[elem]) acc[elem] = firstObject[elem];
+                return acc;
+        }, {})
+};
+
+const data = { a: 1, b: 2, d: NaN };
+const data2 = { c: 1, b: 2, d: NaN };
+console.log(intersection(data, data2)); // { b: 2, d: NaN }
