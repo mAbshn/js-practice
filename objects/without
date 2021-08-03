@@ -1,0 +1,10 @@
+// Task: write a function that returns a new object without keys passed as parameters of the function
+
+const without = (object, ...args) => {
+        const newObject = { ...object };
+        for (let arg of args) delete newObject[arg];
+        return newObject;
+};
+
+const data = { a: 1, b: 2, c: 3 };
+console.log(without(data, 'b', 'c')); // { a: 1 }
