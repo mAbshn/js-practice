@@ -1,0 +1,14 @@
+
+
+const makePairs = (object) => {
+        let newArray = [];
+        for (let key in object) {
+                if (object.hasOwnProperty(key)) {
+                        newArray.push([key, object[key]]);
+                }
+        }
+        return newArray;
+};
+
+const data = { a: 1, b: 2 };
+console.log(makePairs(data)); // [['a', 1], ['b', 2]]
