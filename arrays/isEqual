@@ -1,4 +1,4 @@
-Task: write a function that tests arrays with primitive values for equality
+// Task: write a function that tests arrays with primitive values for equality
 
 const isEqual = (firstArray, secondArray) => {
         if (firstArray.length !== secondArray.length) {
