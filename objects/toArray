@@ -1,4 +1,4 @@
-
+// Task: write a function that transform objects like {'a': 1, 'b': 2} to arrays like [['a', 1], ['b', 2]]
 
 const makePairs = (object) => {
         let newArray = [];
