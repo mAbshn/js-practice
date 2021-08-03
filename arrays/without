@@ -1,4 +1,4 @@
-Task: write a function that clears an array (passed in the first argument) from the values we need (passed as other arguments to the function)
+// Task: write a function that clears an array (passed in the first argument) from the values we need (passed as other arguments to the function)
 
 const without = (array, ...args) => {
         return array.filter((elem) => {
