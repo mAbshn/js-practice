@@ -1,0 +1,15 @@
+Task: write a function that converts deep array to one-dimensional without using the method .flat()
+
+const flatten = (array) => {
+        return array.reduce((accum, elem) => {
+                if (!(Array.isArray(elem))) accum.push(elem);
+                else accum = accum.concat(flatten(elem));
+                return accum;
+        }, []);
+
+}
+
+const data = [1, 2, [3, 4, [5]]];
+const string = [[["b", "c"], ["c", "d"]], [["v", "e"], ["r", "g"]]];
+console.log(flatten(data)); // [1, 2, 3, 4, 5]
+console.log(flatten(string)); // ["b", "c", "c", "d", "v", "e", "r", "g"]
