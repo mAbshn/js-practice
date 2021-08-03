@@ -1,0 +1,13 @@
+// Task: write a function that superficially checks an object for emptiness (undefined, '', null, NaN)
+
+const isEmpty = (object) => {
+        for (let key in object) {
+                if (object[key] && object[key] != null && !isNaN(object[key]) && object[key] != undefined) return false;
+        }
+        return true;
+};
+
+const data = { a: '', b: undefined, c: NaN};
+const data2 = {};
+console.log(isEmpty(data)); // true
+console.log(isEmpty(data2)); // true
