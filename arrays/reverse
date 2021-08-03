@@ -1,0 +1,12 @@
+// task: write a function that expands the array without using the method .reverse()
+
+const reverse = (array) => {
+    let tempArr = array.slice();
+    for (let i = 0, j = array.length - 1; i < array.length; i++, j--) {
+        array[i] = tempArr[j];
+    }
+    return array;
+}
+
+const data = [10, 3, 3, 1, 7, 10, 221, 14];
+console.log(reverse(data));
