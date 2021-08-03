@@ -1,0 +1,11 @@
+Task: write a function that transform arrays like [['a', 1], ['b', 2]] in objects like {'a': 1, 'b': 2}
+
+const fromPairs = (array) => {
+        return array.reduce((accum, elem) => {
+                accum[elem[0]] = elem[1];
+                return accum;
+        }, {});
+}
+
+const data = [['a', 1], ['b', 2]];
+console.log(fromPairs(data)) // { 'a': 1, 'b': 2 }
