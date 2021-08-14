@@ -3,12 +3,12 @@
 
 <head>
     <meta charset="utf-8">
-    <meta name="viewport" contant="width=device-width, initial-scale=1.0">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
     <title>Task</title>
     <link rel="stylesheet" href="1.css">
     
     <style type="text/css">
-        * {
+            * {
             margin: 0;
             padding: 0;
             box-sizing: border-box;
@@ -29,7 +29,7 @@
             display: grid;
             grid-template-columns: 12.5% 12.5% 12.5% 12.5% 12.5% 12.5% 12.5% 12.5%;
             grid-template-rows: 12.5% 12.5% 12.5% 12.5% 12.5% 12.5% 12.5% 12.5%;
-            border: 2px solid #000000;
+            border: 1px solid #000000;
         }
 
         .chessBoard__cell {
@@ -37,6 +37,9 @@
             background-repeat: no-repeat;
             background-position-x: center;
             background-size: contain;
+            cursor: pointer;
+            border: 1px solid black;
+            transition: 0.2s;
         }
 
         .black {
@@ -45,6 +48,76 @@
 
         .white {
             background-color: white;
+        }
+
+        .sidebar {
+            position: absolute;
+            right: 5vw;
+            display: flex;
+            flex-direction: column;
+            justify-content: space-around;
+        }
+
+        .item {
+            width: 7vw;
+            height: 7vw;
+            margin-bottom: 10px;
+            border: 5px solid #a9a9a9;
+            border-radius: 5px;
+            background-size: contain;
+            background-repeat: no-repeat;
+            background-position-x: center;
+            transition: 0.2s;
+        }
+
+        .sidebar__item {
+            background-color: #E9E9E9;
+            cursor: pointer;
+        }
+
+        .sidebar__item_active {
+            background-color: #a9a9a9;
+        }
+
+        #knight {
+            background-image: url(knight.png);
+        }
+
+        #queen {
+            background-image: url(queen.png);
+        }
+
+        #king {
+            background-image: url(king.png);
+        }
+
+        #bishop {
+            background-image: url(bishop.png);
+        }
+
+        #castle {
+            background-image: url(castle.png);
+        }
+
+        @media screen and (max-width: 800px) {
+            .container {
+                align-items: unset;
+            }
+            .chessBoard {
+                margin-top: 8vh;
+                width: 90vw;
+                height: 90vw;
+            }
+            .sidebar {
+                bottom: 5vw;
+                flex-direction: row;
+                width: 90%;
+            }
+            .item {
+                width: 15vw;
+                height: 15vw;
+                margin-right: 10px;
+            }
         }
     </style>
     
@@ -118,45 +191,207 @@
             <div class="chessBoard__cell black"></div>
             <div class="chessBoard__cell white"></div>
         </div>
+        <div class="sidebar">
+            <div id="knight" class="sidebar__item_active item"></div>
+            <div id="castle" class="sidebar__item item"></div>
+            <div id="bishop" class="sidebar__item item"></div>
+            <div id="king" class="sidebar__item item"></div>
+            <div id="queen" class="sidebar__item item"></div>
+        </div>
     </div>
     
     <script>
-        const KnightsMove = function () {
-    let htmlCells = document.getElementsByClassName('chessBoard__cell');
-    let indexNumber = 1;
-    for (let domElem of htmlCells) {
-        domElem.id = indexNumber;
-        indexNumber++;
-    }
-    let cells = new Map();
-    for (let i = 1; i <= 8; i++) {
-        for (let j = 1; j <= 8; j++)
-            cells.set( `x: ${j}, y: ${i}` , htmlCells[8 * (i - 1) + (j - 1)]);
-    }
-    console.log(cells)
-    for (let domElem of htmlCells) {
-        domElem.addEventListener('click', () => {
-            for (let elem of htmlCells) {
-                elem.style.backgroundImage = '';
-                if (elem.className === 'chessBoard__cell black') elem.style.backgroundColor = 'black';
-                else elem.style.backgroundColor = 'white';
+        const chessPiecesMoves = function () {
+
+            let piecesBtn = document.getElementsByClassName('item');                                      // work with buttons
+            for (let elem of piecesBtn) {
+                elem.addEventListener('click', () => {
+                    document.querySelector('.sidebar__item_active').className = 'sidebar__item item';
+                    elem.className = 'sidebar__item_active item'
+                })
             }
-            domElem.style.backgroundImage = "url('knight.png')";
-            let id = domElem.id;
-            let xOfTarget = (id-1)%8+1,
-            yOfTarget = (Math.floor((id-1)/8))+1;
-            try{cells.get(`x: ${xOfTarget-2}, y: ${yOfTarget-1}`).style.backgroundColor = 'red';} catch (error) {};
-            try{cells.get(`x: ${xOfTarget-1}, y: ${yOfTarget-2}`).style.backgroundColor = 'red';} catch (error) {};
-            try{cells.get(`x: ${xOfTarget-2}, y: ${yOfTarget+1}`).style.backgroundColor = 'red';} catch (error) {};
-            try{cells.get(`x: ${xOfTarget-1}, y: ${yOfTarget+2}`).style.backgroundColor = 'red';} catch (error) {};
-            try{cells.get(`x: ${xOfTarget-2}, y: ${yOfTarget-1}`).style.backgroundColor = 'red';} catch (error) {};
-            try{cells.get(`x: ${xOfTarget+2}, y: ${yOfTarget+1}`).style.backgroundColor = 'red';} catch (error) {};
-            try{cells.get(`x: ${xOfTarget+1}, y: ${yOfTarget+2}`).style.backgroundColor = 'red';} catch (error) {};
-            try{cells.get(`x: ${xOfTarget+2}, y: ${yOfTarget-1}`).style.backgroundColor = 'red';} catch (error) {};
-            try{cells.get(`x: ${xOfTarget+1}, y: ${yOfTarget-2}`).style.backgroundColor = 'red';} catch (error) {};
-        })
-    }
-}();
+            let knightBtn = document.querySelector('#knight');
+            let queenBtn = document.querySelector('#queen');
+            let kingBtn = document.querySelector('#king');
+            let bishopBtn = document.querySelector('#bishop');
+            let castleBtn = document.querySelector('#castle');
+
+
+            let htmlCells = document.getElementsByClassName('chessBoard__cell');                           // setting coordinates for each cell 
+            let indexNumber = 1;
+            for (let domElem of htmlCells) {
+                domElem.id = indexNumber;
+                indexNumber++;
+            }
+            let cells = new Map();
+            for (let i = 1; i <= 8; i++) {
+                for (let j = 1; j <= 8; j++)
+                    cells.set(`x: ${j}, y: ${i}`, htmlCells[8 * (i - 1) + (j - 1)]);
+            }
+
+            for (let domElem of htmlCells) {                                                               // common part for each figure + field clearing
+                domElem.addEventListener('click', () => {
+                    for (let elem of htmlCells) {
+                        elem.style.backgroundImage = '';
+                        if (elem.className === 'chessBoard__cell black') elem.style.backgroundColor = 'black';
+                        else elem.style.backgroundColor = 'white';
+                    }
+                    let id = domElem.id;
+                    let xOfTarget = (id - 1) % 8 + 1,
+                        yOfTarget = (Math.floor((id - 1) / 8)) + 1;
+
+                    if (knightBtn.className === 'sidebar__item_active item') {                             // then, for each figure, painting its cells
+                        domElem.style.backgroundImage = "url('knight.png')";
+                        try { cells.get(`x: ${xOfTarget - 2}, y: ${yOfTarget - 1}`).style.backgroundColor = '#c23334'; } catch (error) { };
+                        try { cells.get(`x: ${xOfTarget - 1}, y: ${yOfTarget - 2}`).style.backgroundColor = '#c23334'; } catch (error) { };
+                        try { cells.get(`x: ${xOfTarget - 2}, y: ${yOfTarget + 1}`).style.backgroundColor = '#c23334'; } catch (error) { };
+                        try { cells.get(`x: ${xOfTarget - 1}, y: ${yOfTarget + 2}`).style.backgroundColor = '#c23334'; } catch (error) { };
+                        try { cells.get(`x: ${xOfTarget - 2}, y: ${yOfTarget - 1}`).style.backgroundColor = '#c23334'; } catch (error) { };
+                        try { cells.get(`x: ${xOfTarget + 2}, y: ${yOfTarget + 1}`).style.backgroundColor = '#c23334'; } catch (error) { };
+                        try { cells.get(`x: ${xOfTarget + 1}, y: ${yOfTarget + 2}`).style.backgroundColor = '#c23334'; } catch (error) { };
+                        try { cells.get(`x: ${xOfTarget + 2}, y: ${yOfTarget - 1}`).style.backgroundColor = '#c23334'; } catch (error) { };
+                        try { cells.get(`x: ${xOfTarget + 1}, y: ${yOfTarget - 2}`).style.backgroundColor = '#c23334'; } catch (error) { };
+                    }
+
+                    if (queenBtn.className === 'sidebar__item_active item') {
+                        domElem.style.backgroundImage = "url('queen.png')";
+                        try { cells.get(`x: ${xOfTarget - 1}, y: ${yOfTarget - 0}`).style.backgroundColor = '#c23334'; } catch (error) { };
+                        try { cells.get(`x: ${xOfTarget - 2}, y: ${yOfTarget - 0}`).style.backgroundColor = '#c23334'; } catch (error) { };
+                        try { cells.get(`x: ${xOfTarget - 3}, y: ${yOfTarget - 0}`).style.backgroundColor = '#c23334'; } catch (error) { };
+                        try { cells.get(`x: ${xOfTarget - 4}, y: ${yOfTarget - 0}`).style.backgroundColor = '#c23334'; } catch (error) { };
+                        try { cells.get(`x: ${xOfTarget - 5}, y: ${yOfTarget - 0}`).style.backgroundColor = '#c23334'; } catch (error) { };
+                        try { cells.get(`x: ${xOfTarget - 6}, y: ${yOfTarget - 0}`).style.backgroundColor = '#c23334'; } catch (error) { };
+                        try { cells.get(`x: ${xOfTarget - 7}, y: ${yOfTarget - 0}`).style.backgroundColor = '#c23334'; } catch (error) { };
+                        try { cells.get(`x: ${xOfTarget + 1}, y: ${yOfTarget - 0}`).style.backgroundColor = '#c23334'; } catch (error) { };
+                        try { cells.get(`x: ${xOfTarget + 2}, y: ${yOfTarget - 0}`).style.backgroundColor = '#c23334'; } catch (error) { };
+                        try { cells.get(`x: ${xOfTarget + 3}, y: ${yOfTarget - 0}`).style.backgroundColor = '#c23334'; } catch (error) { };
+                        try { cells.get(`x: ${xOfTarget + 4}, y: ${yOfTarget - 0}`).style.backgroundColor = '#c23334'; } catch (error) { };
+                        try { cells.get(`x: ${xOfTarget + 5}, y: ${yOfTarget - 0}`).style.backgroundColor = '#c23334'; } catch (error) { };
+                        try { cells.get(`x: ${xOfTarget + 6}, y: ${yOfTarget - 0}`).style.backgroundColor = '#c23334'; } catch (error) { };
+                        try { cells.get(`x: ${xOfTarget + 7}, y: ${yOfTarget - 0}`).style.backgroundColor = '#c23334'; } catch (error) { };
+                        try { cells.get(`x: ${xOfTarget + 0}, y: ${yOfTarget - 1}`).style.backgroundColor = '#c23334'; } catch (error) { };
+                        try { cells.get(`x: ${xOfTarget + 0}, y: ${yOfTarget - 2}`).style.backgroundColor = '#c23334'; } catch (error) { };
+                        try { cells.get(`x: ${xOfTarget + 0}, y: ${yOfTarget - 3}`).style.backgroundColor = '#c23334'; } catch (error) { };
+                        try { cells.get(`x: ${xOfTarget + 0}, y: ${yOfTarget - 4}`).style.backgroundColor = '#c23334'; } catch (error) { };
+                        try { cells.get(`x: ${xOfTarget + 0}, y: ${yOfTarget - 5}`).style.backgroundColor = '#c23334'; } catch (error) { };
+                        try { cells.get(`x: ${xOfTarget + 0}, y: ${yOfTarget - 6}`).style.backgroundColor = '#c23334'; } catch (error) { };
+                        try { cells.get(`x: ${xOfTarget + 0}, y: ${yOfTarget - 7}`).style.backgroundColor = '#c23334'; } catch (error) { };
+                        try { cells.get(`x: ${xOfTarget + 0}, y: ${yOfTarget + 1}`).style.backgroundColor = '#c23334'; } catch (error) { };
+                        try { cells.get(`x: ${xOfTarget + 0}, y: ${yOfTarget + 2}`).style.backgroundColor = '#c23334'; } catch (error) { };
+                        try { cells.get(`x: ${xOfTarget + 0}, y: ${yOfTarget + 3}`).style.backgroundColor = '#c23334'; } catch (error) { };
+                        try { cells.get(`x: ${xOfTarget + 0}, y: ${yOfTarget + 4}`).style.backgroundColor = '#c23334'; } catch (error) { };
+                        try { cells.get(`x: ${xOfTarget + 0}, y: ${yOfTarget + 5}`).style.backgroundColor = '#c23334'; } catch (error) { };
+                        try { cells.get(`x: ${xOfTarget + 0}, y: ${yOfTarget + 6}`).style.backgroundColor = '#c23334'; } catch (error) { };
+                        try { cells.get(`x: ${xOfTarget + 0}, y: ${yOfTarget + 7}`).style.backgroundColor = '#c23334'; } catch (error) { };
+                        try { cells.get(`x: ${xOfTarget + 1}, y: ${yOfTarget + 1}`).style.backgroundColor = '#c23334'; } catch (error) { };
+                        try { cells.get(`x: ${xOfTarget + 2}, y: ${yOfTarget + 2}`).style.backgroundColor = '#c23334'; } catch (error) { };
+                        try { cells.get(`x: ${xOfTarget + 3}, y: ${yOfTarget + 3}`).style.backgroundColor = '#c23334'; } catch (error) { };
+                        try { cells.get(`x: ${xOfTarget + 4}, y: ${yOfTarget + 4}`).style.backgroundColor = '#c23334'; } catch (error) { };
+                        try { cells.get(`x: ${xOfTarget + 5}, y: ${yOfTarget + 5}`).style.backgroundColor = '#c23334'; } catch (error) { };
+                        try { cells.get(`x: ${xOfTarget + 6}, y: ${yOfTarget + 6}`).style.backgroundColor = '#c23334'; } catch (error) { };
+                        try { cells.get(`x: ${xOfTarget + 7}, y: ${yOfTarget + 7}`).style.backgroundColor = '#c23334'; } catch (error) { };
+                        try { cells.get(`x: ${xOfTarget - 1}, y: ${yOfTarget - 1}`).style.backgroundColor = '#c23334'; } catch (error) { };
+                        try { cells.get(`x: ${xOfTarget - 2}, y: ${yOfTarget - 2}`).style.backgroundColor = '#c23334'; } catch (error) { };
+                        try { cells.get(`x: ${xOfTarget - 3}, y: ${yOfTarget - 3}`).style.backgroundColor = '#c23334'; } catch (error) { };
+                        try { cells.get(`x: ${xOfTarget - 4}, y: ${yOfTarget - 4}`).style.backgroundColor = '#c23334'; } catch (error) { };
+                        try { cells.get(`x: ${xOfTarget - 5}, y: ${yOfTarget - 5}`).style.backgroundColor = '#c23334'; } catch (error) { };
+                        try { cells.get(`x: ${xOfTarget - 6}, y: ${yOfTarget - 6}`).style.backgroundColor = '#c23334'; } catch (error) { };
+                        try { cells.get(`x: ${xOfTarget - 7}, y: ${yOfTarget - 7}`).style.backgroundColor = '#c23334'; } catch (error) { };
+                        try { cells.get(`x: ${xOfTarget - 1}, y: ${yOfTarget + 1}`).style.backgroundColor = '#c23334'; } catch (error) { };
+                        try { cells.get(`x: ${xOfTarget - 2}, y: ${yOfTarget + 2}`).style.backgroundColor = '#c23334'; } catch (error) { };
+                        try { cells.get(`x: ${xOfTarget - 3}, y: ${yOfTarget + 3}`).style.backgroundColor = '#c23334'; } catch (error) { };
+                        try { cells.get(`x: ${xOfTarget - 4}, y: ${yOfTarget + 4}`).style.backgroundColor = '#c23334'; } catch (error) { };
+                        try { cells.get(`x: ${xOfTarget - 5}, y: ${yOfTarget + 5}`).style.backgroundColor = '#c23334'; } catch (error) { };
+                        try { cells.get(`x: ${xOfTarget - 6}, y: ${yOfTarget + 6}`).style.backgroundColor = '#c23334'; } catch (error) { };
+                        try { cells.get(`x: ${xOfTarget - 7}, y: ${yOfTarget + 7}`).style.backgroundColor = '#c23334'; } catch (error) { };
+                        try { cells.get(`x: ${xOfTarget + 1}, y: ${yOfTarget - 1}`).style.backgroundColor = '#c23334'; } catch (error) { };
+                        try { cells.get(`x: ${xOfTarget + 2}, y: ${yOfTarget - 2}`).style.backgroundColor = '#c23334'; } catch (error) { };
+                        try { cells.get(`x: ${xOfTarget + 3}, y: ${yOfTarget - 3}`).style.backgroundColor = '#c23334'; } catch (error) { };
+                        try { cells.get(`x: ${xOfTarget + 4}, y: ${yOfTarget - 4}`).style.backgroundColor = '#c23334'; } catch (error) { };
+                        try { cells.get(`x: ${xOfTarget + 5}, y: ${yOfTarget - 5}`).style.backgroundColor = '#c23334'; } catch (error) { };
+                        try { cells.get(`x: ${xOfTarget + 6}, y: ${yOfTarget - 6}`).style.backgroundColor = '#c23334'; } catch (error) { };
+                        try { cells.get(`x: ${xOfTarget + 7}, y: ${yOfTarget - 7}`).style.backgroundColor = '#c23334'; } catch (error) { };
+                    }
+
+                    if (kingBtn.className === 'sidebar__item_active item') {
+                        domElem.style.backgroundImage = "url('king.png')";
+                        try { cells.get(`x: ${xOfTarget + 1}, y: ${yOfTarget + 1}`).style.backgroundColor = '#c23334'; } catch (error) { };
+                        try { cells.get(`x: ${xOfTarget - 1}, y: ${yOfTarget - 1}`).style.backgroundColor = '#c23334'; } catch (error) { };
+                        try { cells.get(`x: ${xOfTarget - 1}, y: ${yOfTarget + 1}`).style.backgroundColor = '#c23334'; } catch (error) { };
+                        try { cells.get(`x: ${xOfTarget + 1}, y: ${yOfTarget - 1}`).style.backgroundColor = '#c23334'; } catch (error) { };
+                        try { cells.get(`x: ${xOfTarget - 1}, y: ${yOfTarget - 0}`).style.backgroundColor = '#c23334'; } catch (error) { };
+                        try { cells.get(`x: ${xOfTarget + 1}, y: ${yOfTarget - 0}`).style.backgroundColor = '#c23334'; } catch (error) { };
+                        try { cells.get(`x: ${xOfTarget + 0}, y: ${yOfTarget + 1}`).style.backgroundColor = '#c23334'; } catch (error) { };
+                        try { cells.get(`x: ${xOfTarget + 0}, y: ${yOfTarget - 1}`).style.backgroundColor = '#c23334'; } catch (error) { };
+                    }
+
+                    if (bishopBtn.className === 'sidebar__item_active item') {
+                        domElem.style.backgroundImage = "url('bishop.png')";
+                        try { cells.get(`x: ${xOfTarget + 1}, y: ${yOfTarget + 1}`).style.backgroundColor = '#c23334'; } catch (error) { };
+                        try { cells.get(`x: ${xOfTarget + 2}, y: ${yOfTarget + 2}`).style.backgroundColor = '#c23334'; } catch (error) { };
+                        try { cells.get(`x: ${xOfTarget + 3}, y: ${yOfTarget + 3}`).style.backgroundColor = '#c23334'; } catch (error) { };
+                        try { cells.get(`x: ${xOfTarget + 4}, y: ${yOfTarget + 4}`).style.backgroundColor = '#c23334'; } catch (error) { };
+                        try { cells.get(`x: ${xOfTarget + 5}, y: ${yOfTarget + 5}`).style.backgroundColor = '#c23334'; } catch (error) { };
+                        try { cells.get(`x: ${xOfTarget + 6}, y: ${yOfTarget + 6}`).style.backgroundColor = '#c23334'; } catch (error) { };
+                        try { cells.get(`x: ${xOfTarget + 7}, y: ${yOfTarget + 7}`).style.backgroundColor = '#c23334'; } catch (error) { };
+                        try { cells.get(`x: ${xOfTarget - 1}, y: ${yOfTarget - 1}`).style.backgroundColor = '#c23334'; } catch (error) { };
+                        try { cells.get(`x: ${xOfTarget - 2}, y: ${yOfTarget - 2}`).style.backgroundColor = '#c23334'; } catch (error) { };
+                        try { cells.get(`x: ${xOfTarget - 3}, y: ${yOfTarget - 3}`).style.backgroundColor = '#c23334'; } catch (error) { };
+                        try { cells.get(`x: ${xOfTarget - 4}, y: ${yOfTarget - 4}`).style.backgroundColor = '#c23334'; } catch (error) { };
+                        try { cells.get(`x: ${xOfTarget - 5}, y: ${yOfTarget - 5}`).style.backgroundColor = '#c23334'; } catch (error) { };
+                        try { cells.get(`x: ${xOfTarget - 6}, y: ${yOfTarget - 6}`).style.backgroundColor = '#c23334'; } catch (error) { };
+                        try { cells.get(`x: ${xOfTarget - 7}, y: ${yOfTarget - 7}`).style.backgroundColor = '#c23334'; } catch (error) { };
+                        try { cells.get(`x: ${xOfTarget - 1}, y: ${yOfTarget + 1}`).style.backgroundColor = '#c23334'; } catch (error) { };
+                        try { cells.get(`x: ${xOfTarget - 2}, y: ${yOfTarget + 2}`).style.backgroundColor = '#c23334'; } catch (error) { };
+                        try { cells.get(`x: ${xOfTarget - 3}, y: ${yOfTarget + 3}`).style.backgroundColor = '#c23334'; } catch (error) { };
+                        try { cells.get(`x: ${xOfTarget - 4}, y: ${yOfTarget + 4}`).style.backgroundColor = '#c23334'; } catch (error) { };
+                        try { cells.get(`x: ${xOfTarget - 5}, y: ${yOfTarget + 5}`).style.backgroundColor = '#c23334'; } catch (error) { };
+                        try { cells.get(`x: ${xOfTarget - 6}, y: ${yOfTarget + 6}`).style.backgroundColor = '#c23334'; } catch (error) { };
+                        try { cells.get(`x: ${xOfTarget - 7}, y: ${yOfTarget + 7}`).style.backgroundColor = '#c23334'; } catch (error) { };
+                        try { cells.get(`x: ${xOfTarget + 1}, y: ${yOfTarget - 1}`).style.backgroundColor = '#c23334'; } catch (error) { };
+                        try { cells.get(`x: ${xOfTarget + 2}, y: ${yOfTarget - 2}`).style.backgroundColor = '#c23334'; } catch (error) { };
+                        try { cells.get(`x: ${xOfTarget + 3}, y: ${yOfTarget - 3}`).style.backgroundColor = '#c23334'; } catch (error) { };
+                        try { cells.get(`x: ${xOfTarget + 4}, y: ${yOfTarget - 4}`).style.backgroundColor = '#c23334'; } catch (error) { };
+                        try { cells.get(`x: ${xOfTarget + 5}, y: ${yOfTarget - 5}`).style.backgroundColor = '#c23334'; } catch (error) { };
+                        try { cells.get(`x: ${xOfTarget + 6}, y: ${yOfTarget - 6}`).style.backgroundColor = '#c23334'; } catch (error) { };
+                        try { cells.get(`x: ${xOfTarget + 7}, y: ${yOfTarget - 7}`).style.backgroundColor = '#c23334'; } catch (error) { };
+                    }
+
+                    if (castleBtn.className === 'sidebar__item_active item') {
+                        domElem.style.backgroundImage = "url('castle.png')";
+                        try { cells.get(`x: ${xOfTarget - 1}, y: ${yOfTarget - 0}`).style.backgroundColor = '#c23334'; } catch (error) { };
+                        try { cells.get(`x: ${xOfTarget - 2}, y: ${yOfTarget - 0}`).style.backgroundColor = '#c23334'; } catch (error) { };
+                        try { cells.get(`x: ${xOfTarget - 3}, y: ${yOfTarget - 0}`).style.backgroundColor = '#c23334'; } catch (error) { };
+                        try { cells.get(`x: ${xOfTarget - 4}, y: ${yOfTarget - 0}`).style.backgroundColor = '#c23334'; } catch (error) { };
+                        try { cells.get(`x: ${xOfTarget - 5}, y: ${yOfTarget - 0}`).style.backgroundColor = '#c23334'; } catch (error) { };
+                        try { cells.get(`x: ${xOfTarget - 6}, y: ${yOfTarget - 0}`).style.backgroundColor = '#c23334'; } catch (error) { };
+                        try { cells.get(`x: ${xOfTarget - 7}, y: ${yOfTarget - 0}`).style.backgroundColor = '#c23334'; } catch (error) { };
+                        try { cells.get(`x: ${xOfTarget + 1}, y: ${yOfTarget - 0}`).style.backgroundColor = '#c23334'; } catch (error) { };
+                        try { cells.get(`x: ${xOfTarget + 2}, y: ${yOfTarget - 0}`).style.backgroundColor = '#c23334'; } catch (error) { };
+                        try { cells.get(`x: ${xOfTarget + 3}, y: ${yOfTarget - 0}`).style.backgroundColor = '#c23334'; } catch (error) { };
+                        try { cells.get(`x: ${xOfTarget + 4}, y: ${yOfTarget - 0}`).style.backgroundColor = '#c23334'; } catch (error) { };
+                        try { cells.get(`x: ${xOfTarget + 5}, y: ${yOfTarget - 0}`).style.backgroundColor = '#c23334'; } catch (error) { };
+                        try { cells.get(`x: ${xOfTarget + 6}, y: ${yOfTarget - 0}`).style.backgroundColor = '#c23334'; } catch (error) { };
+                        try { cells.get(`x: ${xOfTarget + 7}, y: ${yOfTarget - 0}`).style.backgroundColor = '#c23334'; } catch (error) { };
+                        try { cells.get(`x: ${xOfTarget + 0}, y: ${yOfTarget - 1}`).style.backgroundColor = '#c23334'; } catch (error) { };
+                        try { cells.get(`x: ${xOfTarget + 0}, y: ${yOfTarget - 2}`).style.backgroundColor = '#c23334'; } catch (error) { };
+                        try { cells.get(`x: ${xOfTarget + 0}, y: ${yOfTarget - 3}`).style.backgroundColor = '#c23334'; } catch (error) { };
+                        try { cells.get(`x: ${xOfTarget + 0}, y: ${yOfTarget - 4}`).style.backgroundColor = '#c23334'; } catch (error) { };
+                        try { cells.get(`x: ${xOfTarget + 0}, y: ${yOfTarget - 5}`).style.backgroundColor = '#c23334'; } catch (error) { };
+                        try { cells.get(`x: ${xOfTarget + 0}, y: ${yOfTarget - 6}`).style.backgroundColor = '#c23334'; } catch (error) { };
+                        try { cells.get(`x: ${xOfTarget + 0}, y: ${yOfTarget - 7}`).style.backgroundColor = '#c23334'; } catch (error) { };
+                        try { cells.get(`x: ${xOfTarget + 0}, y: ${yOfTarget + 1}`).style.backgroundColor = '#c23334'; } catch (error) { };
+                        try { cells.get(`x: ${xOfTarget + 0}, y: ${yOfTarget + 2}`).style.backgroundColor = '#c23334'; } catch (error) { };
+                        try { cells.get(`x: ${xOfTarget + 0}, y: ${yOfTarget + 3}`).style.backgroundColor = '#c23334'; } catch (error) { };
+                        try { cells.get(`x: ${xOfTarget + 0}, y: ${yOfTarget + 4}`).style.backgroundColor = '#c23334'; } catch (error) { };
+                        try { cells.get(`x: ${xOfTarget + 0}, y: ${yOfTarget + 5}`).style.backgroundColor = '#c23334'; } catch (error) { };
+                        try { cells.get(`x: ${xOfTarget + 0}, y: ${yOfTarget + 6}`).style.backgroundColor = '#c23334'; } catch (error) { };
+                        try { cells.get(`x: ${xOfTarget + 0}, y: ${yOfTarget + 7}`).style.backgroundColor = '#c23334'; } catch (error) { };
+                    }
+
+                })
+            }
+        }();
     </script>
     
 </body>
