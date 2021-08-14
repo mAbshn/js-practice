@@ -1,0 +1,164 @@
+<!DOCTYPE html>
+<html lang="ru">
+
+<head>
+    <meta charset="utf-8">
+    <meta name="viewport" contant="width=device-width, initial-scale=1.0">
+    <title>Task</title>
+    <link rel="stylesheet" href="1.css">
+    
+    <style type="text/css">
+        * {
+            margin: 0;
+            padding: 0;
+            box-sizing: border-box;
+        }
+
+        .container {
+            height: 100vh;
+            width: 100vw;
+            display: flex;
+            justify-content: center;
+            align-items: center;
+        }
+
+        .chessBoard {
+            position: relative;
+            width: 50vw;
+            height: 50vw;
+            display: grid;
+            grid-template-columns: 12.5% 12.5% 12.5% 12.5% 12.5% 12.5% 12.5% 12.5%;
+            grid-template-rows: 12.5% 12.5% 12.5% 12.5% 12.5% 12.5% 12.5% 12.5%;
+            border: 2px solid #000000;
+        }
+
+        .chessBoard__cell {
+            position: relative;
+            background-repeat: no-repeat;
+            background-position-x: center;
+            background-size: contain;
+        }
+
+        .black {
+            background-color: #000000;
+        }
+
+        .white {
+            background-color: white;
+        }
+    </style>
+    
+</head>
+
+<body>
+    <div class="container">
+        <div class="chessBoard">
+            <div class="chessBoard__cell white"></div>
+            <div class="chessBoard__cell black"></div>
+            <div class="chessBoard__cell white"></div>
+            <div class="chessBoard__cell black"></div>
+            <div class="chessBoard__cell white"></div>
+            <div class="chessBoard__cell black"></div>
+            <div class="chessBoard__cell white"></div>
+            <div class="chessBoard__cell black"></div>
+            <div class="chessBoard__cell black"></div>
+            <div class="chessBoard__cell white"></div>
+            <div class="chessBoard__cell black"></div>
+            <div class="chessBoard__cell white"></div>
+            <div class="chessBoard__cell black"></div>
+            <div class="chessBoard__cell white"></div>
+            <div class="chessBoard__cell black"></div>
+            <div class="chessBoard__cell white"></div>
+            <div class="chessBoard__cell white"></div>
+            <div class="chessBoard__cell black"></div>
+            <div class="chessBoard__cell white"></div>
+            <div class="chessBoard__cell black"></div>
+            <div class="chessBoard__cell white"></div>
+            <div class="chessBoard__cell black"></div>
+            <div class="chessBoard__cell white"></div>
+            <div class="chessBoard__cell black"></div>
+            <div class="chessBoard__cell black"></div>
+            <div class="chessBoard__cell white"></div>
+            <div class="chessBoard__cell black"></div>
+            <div class="chessBoard__cell white"></div>
+            <div class="chessBoard__cell black"></div>
+            <div class="chessBoard__cell white"></div>
+            <div class="chessBoard__cell black"></div>
+            <div class="chessBoard__cell white"></div>
+            <div class="chessBoard__cell white"></div>
+            <div class="chessBoard__cell black"></div>
+            <div class="chessBoard__cell white"></div>
+            <div class="chessBoard__cell black"></div>
+            <div class="chessBoard__cell white"></div>
+            <div class="chessBoard__cell black"></div>
+            <div class="chessBoard__cell white"></div>
+            <div class="chessBoard__cell black"></div>
+            <div class="chessBoard__cell black"></div>
+            <div class="chessBoard__cell white"></div>
+            <div class="chessBoard__cell black"></div>
+            <div class="chessBoard__cell white"></div>
+            <div class="chessBoard__cell black"></div>
+            <div class="chessBoard__cell white"></div>
+            <div class="chessBoard__cell black"></div>
+            <div class="chessBoard__cell white"></div>
+            <div class="chessBoard__cell white"></div>
+            <div class="chessBoard__cell black"></div>
+            <div class="chessBoard__cell white"></div>
+            <div class="chessBoard__cell black"></div>
+            <div class="chessBoard__cell white"></div>
+            <div class="chessBoard__cell black"></div>
+            <div class="chessBoard__cell white"></div>
+            <div class="chessBoard__cell black"></div>
+            <div class="chessBoard__cell black"></div>
+            <div class="chessBoard__cell white"></div>
+            <div class="chessBoard__cell black"></div>
+            <div class="chessBoard__cell white"></div>
+            <div class="chessBoard__cell black"></div>
+            <div class="chessBoard__cell white"></div>
+            <div class="chessBoard__cell black"></div>
+            <div class="chessBoard__cell white"></div>
+        </div>
+    </div>
+    
+    <script>
+        const KnightsMove = function () {
+    let htmlCells = document.getElementsByClassName('chessBoard__cell');
+    let indexNumber = 1;
+    for (let domElem of htmlCells) {
+        domElem.id = indexNumber;
+        indexNumber++;
+    }
+    let cells = new Map();
+    for (let i = 1; i <= 8; i++) {
+        for (let j = 1; j <= 8; j++)
+            cells.set( `x: ${j}, y: ${i}` , htmlCells[8 * (i - 1) + (j - 1)]);
+    }
+    console.log(cells)
+    for (let domElem of htmlCells) {
+        domElem.addEventListener('click', () => {
+            for (let elem of htmlCells) {
+                elem.style.backgroundImage = '';
+                if (elem.className === 'chessBoard__cell black') elem.style.backgroundColor = 'black';
+                else elem.style.backgroundColor = 'white';
+            }
+            domElem.style.backgroundImage = "url('knight.png')";
+            let id = domElem.id;
+            let xOfTarget = (id-1)%8+1,
+            yOfTarget = (Math.floor((id-1)/8))+1;
+            try{cells.get(`x: ${xOfTarget-2}, y: ${yOfTarget-1}`).style.backgroundColor = 'red';} catch (error) {};
+            try{cells.get(`x: ${xOfTarget-1}, y: ${yOfTarget-2}`).style.backgroundColor = 'red';} catch (error) {};
+            try{cells.get(`x: ${xOfTarget-2}, y: ${yOfTarget+1}`).style.backgroundColor = 'red';} catch (error) {};
+            try{cells.get(`x: ${xOfTarget-1}, y: ${yOfTarget+2}`).style.backgroundColor = 'red';} catch (error) {};
+            try{cells.get(`x: ${xOfTarget-2}, y: ${yOfTarget-1}`).style.backgroundColor = 'red';} catch (error) {};
+            try{cells.get(`x: ${xOfTarget+2}, y: ${yOfTarget+1}`).style.backgroundColor = 'red';} catch (error) {};
+            try{cells.get(`x: ${xOfTarget+1}, y: ${yOfTarget+2}`).style.backgroundColor = 'red';} catch (error) {};
+            try{cells.get(`x: ${xOfTarget+2}, y: ${yOfTarget-1}`).style.backgroundColor = 'red';} catch (error) {};
+            try{cells.get(`x: ${xOfTarget+1}, y: ${yOfTarget-2}`).style.backgroundColor = 'red';} catch (error) {};
+        })
+    }
+}();
+    </script>
+    
+</body>
+
+</html>
