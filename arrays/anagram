@@ -1,0 +1,14 @@
+// Task: clear the array of anagrams (if a word has an anagram, remove it, leaving one of these words)
+
+let arr = ["nap", "teachers", "cheaters", "PAN", "ear", "era", "hectares"];
+
+function aclean(arr) {
+    const map = new Map();
+    arr.forEach((word, index) => {
+        arr[index] = word.toLowerCase().split('').sort().join('');
+        map.set(arr[index], word);
+    });
+    return Array.from(map.values());
+}
+
+console.log(aclean(arr)); // "nap,teachers,ear" or "PAN,cheaters,era"
